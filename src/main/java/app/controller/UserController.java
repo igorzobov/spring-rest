@@ -1,8 +1,8 @@
 package app.controller;
 
 import app.model.User;
-import app.service.RoleService;
-import app.service.UserService;
+import app.repo.RoleRepository;
+import app.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserService userService;
-    private final RoleService roleService;
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserController(UserService userService, RoleService roleService) {
-        this.userService = userService;
-        this.roleService = roleService;
+    public UserController(RoleRepository roleRepository, UserRepository userRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @GetMapping
     public String userInfo(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", user);
-        return "user/user";
+        return "userPage";
     }
 }

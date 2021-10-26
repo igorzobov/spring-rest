@@ -13,7 +13,7 @@
 <p th:text="${user.getRoles()}">role user</p>
 
 <a th:href="@{/admin/{id}/edit(id=${user.getUser_id()})}">Edit</a>
-<form th:method="DELETE" th:action="@{/admin/{id}(id=${user.getUser_id()})}">
+<form th:method="POST" th:action="@{/admin/delete/{id}(id=${user.getUser_id()})}">
     <input type="submit" value="Delete user">
 </form>
 <br/>

@@ -14,14 +14,14 @@ public class Role implements GrantedAuthority {
     private long id;
 
     @Column(name = "name")
-    private String rolename;
+    private String name;
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
     public Role(long id, String role) {
         this.id = id;
-        this.rolename = role;
+        this.name = role;
     }
 
     public Role() {
@@ -37,15 +37,15 @@ public class Role implements GrantedAuthority {
     }
 
     public String getRolename() {
-        return rolename;
+        return name;
     }
 
     public void setRolename(String role) {
-        this.rolename = role;
+        this.name = role;
     }
 
     @Override
     public String getAuthority() {
-        return rolename;
+        return name;
     }
 }
