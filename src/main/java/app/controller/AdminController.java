@@ -2,13 +2,14 @@ package app.controller;
 
 import app.model.Role;
 import app.model.User;
-import app.repo.RoleRepository;
-import app.repo.UserRepository;
+import app.service.RoleService;
+import app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,24 +17,25 @@ import java.util.Set;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public AdminController(UserRepository userRepository, RoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+    public AdminController(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
     }
+
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("user", userRepository.findAll());
+        model.addAttribute("user", userService.getUserList());
         return "index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userRepository.findById(id).get());
+        model.addAttribute("user", userService.show(id));
         return "show";
     }
 
@@ -49,22 +51,28 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "new";
         }
-        return getString(user, checkBoxRoles);
+        Set<Role> roleSet = new HashSet<>();
+        for (String role : checkBoxRoles) {
+            roleSet.add(roleService.getRoleByName(role));
+        }
+        user.setRoles(roleSet);
+        userService.save(user);
+        return "redirect:/admin";
     }
 
     private String getString(@ModelAttribute("user") User user, @RequestParam("checkBoxRoles") String[] checkBoxRoles) {
         Set<Role> roleSet = new HashSet<>();
         for (String role : checkBoxRoles) {
-            roleSet.add(roleRepository.findRoleByName(role));
+            roleSet.add(roleService.getRoleByName(role));
         }
         user.setRoles(roleSet);
-        userRepository.save(user);
+        userService.save(user);
         return "redirect:/admin";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id) {
-        model.addAttribute("user", userRepository.findById(id).get());
+        model.addAttribute("user", userService.show(id));
         return "edit";
     }
 
@@ -78,7 +86,7 @@ public class AdminController {
         }
         Set<Role> roleSet = new HashSet<>();
         for (String role : checkBoxRoles) {
-            roleSet.add(roleRepository.findRoleByName(role));
+            roleSet.add(roleService.getRoleByName(role));
         }
         user.setRoles(roleSet);
         user.setUser_id(id);
@@ -87,7 +95,7 @@ public class AdminController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") long id) {
-        userRepository.deleteById(id);
+        userService.delete(id);
         return "redirect:/admin";
     }
 }

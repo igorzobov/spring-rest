@@ -7,21 +7,18 @@
 <body>
 
 <form th:method="POST" th:action="@{/admin/{id}(id=${user.getUser_id()})}" th:object="${user}">
+    <input type="hidden" th:field="*{user_id}" id="id"/>
     <label for="name">Name: </label>
     <input type="text" th:field="*{username}" id="name"/>
-    <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error message</div>
     <br/>
     <label for="password">Password: </label>
     <input type="text" th:field="*{password}" id="password"/>
-    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{age}">Error message</div>
     <br/>
     <label for="age">Age: </label>
     <input type="text" th:field="*{age}" id="age"/>
-    <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Error message</div>
     <br/>
     <label for="email">Email: </label>
     <input type="text" th:field="*{email}" id="email"/>
-    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error message</div>
     <br/>
     <input type="checkbox" name="checkBoxRoles" value="ROLE_USER">USER
     <input type="checkbox" name="checkBoxRoles" value="ROLE_ADMIN">ADMIN
