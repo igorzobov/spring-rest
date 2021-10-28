@@ -60,40 +60,29 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    private String getString(@ModelAttribute("user") User user, @RequestParam("checkBoxRoles") String[] checkBoxRoles) {
-        Set<Role> roleSet = new HashSet<>();
-        for (String role : checkBoxRoles) {
-            roleSet.add(roleService.getRoleByName(role));
-        }
-        user.setRoles(roleSet);
-        userService.save(user);
-        return "redirect:/admin";
-    }
-
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id) {
         model.addAttribute("user", userService.show(id));
         return "edit";
     }
 
-    @PostMapping("/{id}")
+    @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user,
                          @RequestParam(value = "checkBoxRoles") String[] checkBoxRoles,
-                         BindingResult bindingResult,
-                         @PathVariable("id") long id) {
+                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "edit";
+            return "admin/edit";
         }
         Set<Role> roleSet = new HashSet<>();
         for (String role : checkBoxRoles) {
             roleSet.add(roleService.getRoleByName(role));
         }
         user.setRoles(roleSet);
-        user.setUser_id(id);
-        return getString(user, checkBoxRoles);
+        userService.update(user);
+        return "redirect:/admin";
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable("id") long id) {
         userService.delete(id);
         return "redirect:/admin";

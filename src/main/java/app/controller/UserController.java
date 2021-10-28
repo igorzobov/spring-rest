@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 
-    private final RoleRepository roleRepository;
     private final UserRepository userRepository;
 
     @Autowired
-    public UserController(RoleRepository roleRepository, UserRepository userRepository) {
+    public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
     }
 
     @GetMapping
