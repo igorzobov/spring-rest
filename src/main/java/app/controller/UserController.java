@@ -1,7 +1,6 @@
 package app.controller;
 
 import app.model.User;
-import app.repo.RoleRepository;
 import app.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +22,7 @@ public class UserController {
     @GetMapping
     public String userInfo(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", user);
+        model.addAttribute("roles", user.getRoles());
         return "userPage";
     }
 }

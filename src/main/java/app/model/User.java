@@ -4,7 +4,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -43,11 +45,11 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public long getUser_id() {
+    public long getId() {
         return id;
     }
 
-    public void setUser_id(long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

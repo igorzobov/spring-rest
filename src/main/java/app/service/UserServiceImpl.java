@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<User> getUserList() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public void update(User user) {
-        if (!Objects.equals(user.getPassword(), userRepository.findById(user.getUser_id()).get().getPassword())) {
+        if (!Objects.equals(user.getPassword(), userRepository.findById(user.getId()).get().getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         userRepository.save(user);
