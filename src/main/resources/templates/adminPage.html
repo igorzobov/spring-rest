@@ -97,7 +97,7 @@
                     <div class="modal-body">
                       <div style="text-align: center;">
                         <div class="row justify-content-center align-items-center">
-                          <form class="text-center" th:action="@{/admin/edit/{id}(id=${user.id})}"
+                          <form class="text-center" th:action="@{/admin/{id}(id=${user.id})}"
                                 th:object="${user}"
                                 th:method="patch" th:id="${'editForm' + user.id}">
                             <div class="form-group font-weight-bold">
@@ -152,7 +152,7 @@
                     <div class="modal-body">
                       <div style="text-align: center;">
                         <div class="row justify-content-center align-items-center">
-                          <form class="text-center" th:action="@{/admin/delete/{id}(id=${user.getId()})}"
+                          <form class="text-center" th:action="@{/admin/{id}(id=${user.getId()})}"
                                 th:object="${user}" th:method="delete"
                                 th:id="${'deleteForm' + user.id}">
                             <div class="form-group font-weight-bold">
@@ -202,7 +202,7 @@
         <div class="tab-pane fade" id="new" role="tabpanel" aria-labelledby="new-tab">
           <h5 class="card-header">Add new user</h5>
           <div class="row justify-content-center align-items-center">
-            <form class="text-center" th:action="@{/admin/add-user}" th:object="${user}" method="post">
+            <form class="text-center" th:action="@{/admin}" th:object="${user}" method="post">
               <div class="form-group font-weight-bold">
                 <label for="name">Name</label>
                 <input type="text" class="form-control" id="name" name="username"

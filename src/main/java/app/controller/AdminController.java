@@ -27,12 +27,15 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
-        return "new";
+    @GetMapping
+    public String listUsers(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
+        model.addAttribute("allUsers", userService.getAllUsers());
+        model.addAttribute("allRoles", roleService.getAllRoles());
+        return "adminPage";
     }
 
-    @PostMapping("/add-user")
+    @PostMapping
     public String createUser(@ModelAttribute("user") User user,
                              @RequestParam(value = "checkBoxRoles") String[] checkBoxRoles,
                              BindingResult bindingResult) {
@@ -48,7 +51,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @PatchMapping(value = "/edit/{id}")
+    @PatchMapping("/{id}")
     public String update(@ModelAttribute User user, @RequestParam(value = "checkBoxRoles") String[] checkBoxRoles,
                          @PathVariable long id) {
         Set<Role> roleSet = new HashSet<>();
@@ -61,17 +64,9 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") long id) {
         userService.delete(id);
         return "redirect:/admin";
-    }
-
-    @GetMapping()
-    public String listUsers(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("user", user);
-        model.addAttribute("allUsers", userService.getAllUsers());
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        return "adminPage";
     }
 }
