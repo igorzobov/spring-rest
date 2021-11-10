@@ -13,6 +13,8 @@ public interface UserService {
 
     void update(User user);
 
+    User getUserById(long id);
+
     void delete(long id);
 
     User getUserByName(String s);

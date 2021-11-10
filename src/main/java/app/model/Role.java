@@ -1,5 +1,6 @@
 package app.model;
 
+import org.springframework.aop.IntroductionAwareMethodMatcher;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -50,6 +51,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return name.replaceAll("ROLE_", "");
+        return name;
     }
 }
