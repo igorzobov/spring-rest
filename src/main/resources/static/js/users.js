@@ -102,7 +102,7 @@ $('#editButton').on('click', (e) => {
     }
     $.ajax({
         url: '/admin',
-        method: 'PUT',
+        method: 'PATCH',
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         data: JSON.stringify(editUser),

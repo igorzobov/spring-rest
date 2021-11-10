@@ -47,7 +47,7 @@ public class AdminRestController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PutMapping("admin")
+    @PatchMapping("admin")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         userService.update(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -55,11 +55,7 @@ public class AdminRestController {
 
     @DeleteMapping("admin/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable long id) {
-//        if (userService.existsUserById(id)) {
         userService.delete(id);
-//        } else {
-//            throw new RuntimeException("User doesn't exists for id: - " + id);
-//        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
